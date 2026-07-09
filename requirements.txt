@@ -2,5 +2,6 @@ streamlit
 openai>=1.0
 pypdf
 numpy
+pandas
 pydub
 azure-cognitiveservices-speech
