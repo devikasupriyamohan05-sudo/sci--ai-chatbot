@@ -9,22 +9,25 @@ st.set_page_config(page_title="Care Assistant", page_icon="🕊️", layout="cen
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap');
-html, body, .stApp, .stMarkdown, p, li, label, span, div, input, textarea,
-.stTextInput input, .stChatInput textarea, button, .stButton>button, [data-testid="stMetricValue"] {
+/* fonts on TEXT elements only (never on buttons/icons, to keep glyph fonts intact) */
+.stApp, .stMarkdown, .stMarkdown p, p, li, label,
+[data-testid="stChatMessage"], .stTextInput input, textarea, .stChatInput textarea {
   font-family: 'PT Serif', Georgia, serif !important;
 }
-h1, h2, h3, h4, .app-title, [data-baseweb="tab"] { font-family: 'Playfair Display', Georgia, serif !important; color:#1b4053; }
-.stApp { background:#ffffff; }
+h1, h2, h3, h4, .app-title, [data-baseweb="tab"] { font-family: 'Playfair Display', Georgia, serif !important; }
+/* force a light, on-brand look regardless of the viewer's theme */
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] { background:#ffffff !important; color:#21455a !important; }
+[data-testid="stSidebar"] { background:#eef4f1 !important; }
+[data-testid="stSidebar"] * { color:#21455a !important; }
 #MainMenu, header[data-testid="stHeader"], footer { visibility:hidden; }
-.topbar { background:#1b4053; color:#fff; padding:22px 26px; border-radius:6px; margin-bottom:10px; }
-.topbar .app-title { color:#ffffff; font-style:italic; font-size:30px; margin:0; }
-.topbar .app-sub { color:#cfe0dc; font-family:'PT Serif',serif !important; font-size:14px; }
-.tagline { color:#456; font-style:italic; margin:2px 0 16px; }
-.stButton>button { background:#a8762f; color:#fff; border:none; border-radius:4px; font-weight:700; }
-.stButton>button:hover { background:#8a6126; color:#fff; }
-[data-testid="stChatMessage"] { font-family:'PT Serif',serif !important; }
-h2, h3 { color:#1b4053; }
-a, .stMarkdown a { color:#6f7d33; }
+.topbar { background:#1b4053; padding:22px 26px; border-radius:6px; margin-bottom:10px; }
+.topbar .app-title { color:#ffffff !important; font-style:italic; font-size:30px; margin:0; font-family:'Playfair Display',serif; }
+.topbar .app-sub { color:#cfe0dc !important; font-size:14px; }
+.tagline { color:#4a6472 !important; font-style:italic; margin:2px 0 16px; }
+.stButton>button { background:#a8762f !important; color:#ffffff !important; border:none; border-radius:4px; font-weight:700; }
+.stButton>button:hover { background:#8a6126 !important; }
+h1, h2, h3 { color:#1b4053 !important; }
+a, .stMarkdown a { color:#6f7d33 !important; }
 [data-baseweb="tab"] { font-size:16px; }
 </style>
 """, unsafe_allow_html=True)
