@@ -1,4 +1,4 @@
-import time, tempfile, json
+import time, tempfile, json, os, subprocess
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -62,11 +62,16 @@ def read_pdf(file):
     return "\n".join((p.extract_text() or "") for p in PdfReader(file).pages)
 
 def _to_wav(uploaded):
-    from pydub import AudioSegment
-    seg = AudioSegment.from_file(uploaded).set_frame_rate(16000).set_channels(1)
-    tmp = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
-    seg.export(tmp.name, format="wav")
-    return tmp.name
+    # Write the upload to disk, then convert to 16 kHz mono WAV with ffmpeg
+    # (no pydub -> avoids the removed 'audioop' module on Python 3.13+).
+    ext = os.path.splitext(uploaded.name)[1] or ".bin"
+    src = tempfile.NamedTemporaryFile(suffix=ext, delete=False)
+    src.write(uploaded.getvalue())
+    src.flush()
+    out = tempfile.NamedTemporaryFile(suffix=".wav", delete=False).name
+    subprocess.run(["ffmpeg", "-y", "-i", src.name, "-ar", "16000", "-ac", "1", "-sample_fmt", "s16", out],
+                   check=True, capture_output=True)
+    return out
 
 def transcribe_audio(uploaded):
     import azure.cognitiveservices.speech as speechsdk
